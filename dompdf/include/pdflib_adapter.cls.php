@@ -965,4 +965,3 @@ class PDFLib_Adapter implements Canvas {
 
 // Workaround for idiotic limitation on statics...
 PDFLib_Adapter::$PAPER_SIZES = CPDF_Adapter::$PAPER_SIZES;
-?>

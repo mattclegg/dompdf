@@ -899,4 +899,3 @@ class CPDF_Adapter implements Canvas {
   
 }
 
-?>
