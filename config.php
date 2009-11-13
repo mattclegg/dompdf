@@ -70,7 +70,7 @@ define("DOMPDF_INC_DIR", DOMPDF_DIR . "/include");
 define("DOMPDF_LIB_DIR", DOMPDF_DIR . "/lib");
 
 //FIXME: Some function definitions rely on the constants defined by DOMPDF. However, might this location prove problematic?
-require_once(DOMPDF_INC_DIR . "/functions.inc.php");
+require_once(DOMPDF_DIR . "/functions.php");
 
 /**
  * The location of the DOMPDF font directory
@@ -345,10 +345,10 @@ if (!defined("DOMPDF_ENABLE_REMOTE")) {
  * @param string $class
  */
 function DOMPDF_autoload($class) {
-  $filename = DOMPDF_INC_DIR . "/" . mb_strtolower($class) . ".cls.php";
+  $filename = DOMPDF_INC_DIR . "/".  strtolower(str_replace("_", "/", $class)) . ".php";
   
   if ( is_file($filename) )
-    require_once($filename);
+    require $filename;
 }
 
 if ( function_exists("spl_autoload_register") ) {
