@@ -195,31 +195,18 @@ class Frame_Tree {
         $child->parentNode->removeChild($child);
         continue;
       }
-
-      // Add a container frame for images
-      if ( $child->nodeName === "img" ) {
-        $img_node = $child->ownerDocument->createElement("img_inner");
-     
-        // Move attributes to inner node        
-        foreach ( $child->attributes as $attr => $attr_node ) {
-          // Skip style, but move all other attributes
-          if ( $attr === "style" )
-            continue;
-       
-          $img_node->setAttribute($attr, $attr_node->value);
-        }
-
-        foreach ( $child->attributes as $attr => $node ) {
-          if ( $attr === "style" )
-            continue;
-          $child->removeAttribute($attr);
-        }
-
-        $child->appendChild($img_node);
-      }
+      
+      // Get value from inputs
+      /*if ( $child->nodeName === "input" ) {
+        $type = $child->getAttribute("type");
+        $value = $child->getAttribute("value");
+        $value = ( $type === "checkbox" || $type === "radio" || $value === null || $value === "" ) ? " " : $value;
+          
+        $input_value = $child->ownerDocument->createTextNode($value);
+        $child->appendChild($input_value);
+      }*/
       
       $frame->append_child($this->_build_tree_r($child), false);
-
     }
     
     return $frame;

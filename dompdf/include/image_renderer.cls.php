@@ -45,27 +45,33 @@
  * @access private
  * @package dompdf
  */
-class Image_Renderer extends Abstract_Renderer {
+class Image_Renderer extends Block_Renderer {
 
   function render(Frame $frame) {
-
     // Render background & borders
-    //parent::render($frame);
-    $p = $frame->get_parent();
     $style = $frame->get_style();
     
-    $cb = $frame->get_containing_block();
-    
-    list($x, $y) = $frame->get_padding_box();
-    $x += $style->length_in_pt($style->padding_left, $cb["w"]);
-    $y += $style->length_in_pt($style->padding_top, $cb["h"]);
-
-    $w = $style->length_in_pt($style->width, $cb["w"]);
-    $h = $style->length_in_pt($style->height, $cb["h"]);
+    list($x, $y, $w, $h) = $frame->get_border_box();
   
     if ( $style->opacity != 1.0 ) {
       $this->_set_opacity( $frame->get_opacity( $style->opacity ) );
     }
+    
+    // Handle the last child
+    if ( ($bg = $style->background_color) !== "transparent" ) 
+      $this->_canvas->filled_rectangle( $x + $widths[3], $y + $widths[0], $w, $h, $bg);
+
+    if ( ($url = $style->background_image) && $url !== "none" )           
+      $this->_background_image($url, $x + $widths[3], $y + $widths[0], $w, $h, $style);
+    
+    $this->_render_border($frame);
+    
+    list($x, $y) = $frame->get_padding_box();
+    $x += $style->length_in_pt($style->padding_left, $cb["w"]);
+    $y += $style->length_in_pt($style->padding_top, $cb["h"]);
+    
+    $w = $style->length_in_pt($style->width, $cb["w"]);
+    $h = $style->length_in_pt($style->height, $cb["h"]);
 
     $this->_canvas->image( $frame->get_image_url(), $frame->get_image_ext(), $x, $y, $w, $h);
 
