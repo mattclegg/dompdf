@@ -64,10 +64,6 @@ class Image_Frame_Reflower extends Frame_Reflower {
   }
 
   function get_min_max_width() {
-    if ( !is_null($this->_min_max_cache) ) {
-      //return $this->_min_max_cache;
-    }
-    
     if (DEBUGPNG) {
       // Determine the image's size. Time consuming. Only when really needed?
       list($img_width, $img_height) = getimagesize($this->_frame->get_image_url());
@@ -144,12 +140,10 @@ class Image_Frame_Reflower extends Frame_Reflower {
 
     if (DEBUGPNG) print $width.' '.$height.';';
 
-    if (!is_null($this->_min_max_cache)) {
-      $style->width = $width . "pt";
-      $style->height = $height . "pt";
-    }
+    $style->width = $width . "pt";
+    $style->height = $height . "pt";
 
-    return $this->_min_max_cache = array( $width, $width, "min" => $width, "max" => $width);
+    return array( $width, $width, "min" => $width, "max" => $width);
     
   }
 }
