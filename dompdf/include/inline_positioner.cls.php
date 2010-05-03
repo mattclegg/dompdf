@@ -66,9 +66,28 @@ class Inline_Positioner extends Positioner {
       throw new DOMPDF_Exception("No block-level parent found.  Not good.");
 
     $cb = $this->_frame->get_containing_block();
-    
+    $style = $this->_frame->get_style();
     $line = $p->get_current_line();
-    
+
+    if( $this->_frame->get_parent() instanceof Inline_Frame_Decorator ) {
+
+      $min_max = $this->_frame->get_reflower()->get_min_max_width();
+      $height = $style->length_in_pt($style->height, $cb["h"]);
+
+
+      // If the frame doesn't fit on the page, a page break occurs
+      /*if( $height !== "auto" && $height > ($cb["h"] - $line["y"]) ) {
+
+        $this->_frame->get_parent()->split($this->_frame, true);
+        //return;
+      }*/
+
+      //If the frame doesn't fit in the current line, a line break occurs
+      if ( $min_max["min"] > ($cb["w"]-$p->get_current_line("w"))) {
+       $p->add_line();
+      }
+    }
+
     $this->_frame->set_position($cb["x"] + $line["w"], $line["y"]);
 
   }
