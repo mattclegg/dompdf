@@ -50,7 +50,8 @@ class Image_Renderer extends Block_Renderer {
   function render(Frame $frame) {
     // Render background & borders
     $style = $frame->get_style();
-    
+    $cb = $frame->get_containing_block();
+
     list($x, $y, $w, $h) = $frame->get_border_box();
   
     if ( $style->opacity != 1.0 ) {
