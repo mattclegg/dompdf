@@ -3455,13 +3455,18 @@ class  Cpdf {
         if ( isset($this->fonts[$cf]['differences'][$char])) {
           $char = $this->fonts[$cf]['differences'][$char];
         }
-        // add the character width
-        if ( isset($this->fonts[$cf]['C'][$char]['WX'])) {
-        $w+= $this->fonts[$cf]['C'][$char]['WX'];
-        }
-        // add additional padding for space
-        if ( $this->fonts[$cf]['C'][$char]['N'] == 'space' ) {  // Space
-          $w+= $spacing * $space_scale;
+        
+        if ( isset($this->fonts[$cf]['C'][$char]) ) {
+          $char_data = $this->fonts[$cf]['C'][$char];
+          
+          // add the character width
+          if ( isset($char_data['WX'])) {
+            $w += $char_data['WX'];
+          }
+          // add additional padding for space
+          if ( $char_data['N'] == 'space' ) {  // Space
+            $w += $spacing * $space_scale;
+          }
         }
       }
     }
