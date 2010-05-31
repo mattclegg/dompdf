@@ -246,6 +246,7 @@ class CPDF_Adapter implements Canvas {
       if (!DEBUGKEEPTEMP)
         unlink($img);
     }
+    clear_object($this);
   }
   
   /**

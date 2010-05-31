@@ -560,3 +560,19 @@ if ( !function_exists('sys_get_temp_dir')) {
     }
   }
 }
+
+/**
+ * Affect null to the unused objects
+ * @param unknown_type $object
+ */
+function clear_object(&$object) {  
+  if ( is_object($object) ) {
+    foreach (array_keys((array)$object) as $key) {
+      clear_object($property);
+    }
+    foreach(get_class_vars(get_class($object)) as $property => $value) {
+      clear_object($property);
+    }
+  }
+  $object = null;
+}

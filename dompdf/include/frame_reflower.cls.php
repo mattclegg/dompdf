@@ -70,7 +70,7 @@ abstract class Frame_Reflower {
   }
 
   function dispose() {
-    unset($this->_frame);
+    clear_object($this);
   }
 
   protected function _collapse_margins() {

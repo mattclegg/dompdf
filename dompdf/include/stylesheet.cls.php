@@ -154,6 +154,13 @@ class Stylesheet {
     list($this->_protocol, $this->_base_host, $this->_base_path) = explode_url($_SERVER["SCRIPT_FILENAME"]);
     $this->_page_style = null;
   }
+  
+  /**
+   * Class destructor
+   */
+  function __destruct() {
+    clear_object($this);
+  }
 
   /**
    * Set the base protocol
@@ -718,7 +725,7 @@ class Stylesheet {
     // We're done!  Clean out the registry of all styles since we
     // won't be needing this later.
     foreach ( array_keys($this->_styles) as $key ) {
-      unset($this->_styles[$key]);
+      $this->_styles[$key] = null;
     }
 
   }

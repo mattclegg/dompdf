@@ -86,7 +86,12 @@ class Image_Frame_Decorator extends Frame_Decorator {
                                                                           $dompdf->get_protocol(),
                                                                           $dompdf->get_host(),
                                                                           $dompdf->get_base_path());
-    
+
+    if ( strrpos( $this->_image_url, DOMPDF_LIB_DIR . "/res/broken_image.png", 0) !== false &&
+         $alt = $frame->get_node()->getAttribute("alt") ) {
+       $frame->get_style()->width  = (4/3)*Font_Metrics::get_text_width($alt, $frame->get_style()->font_family, $frame->get_style()->font_size, $frame->get_style()->word_spacing);
+       $frame->get_style()->height = Font_Metrics::get_font_height($frame->get_style()->font_family, $frame->get_style()->font_size);
+    }
   }
 
   /**

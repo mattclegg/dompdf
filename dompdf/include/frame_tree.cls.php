@@ -100,6 +100,10 @@ class Frame_Tree {
     $this->_root = null;
     $this->_registry = array();
   }
+  
+  function __destruct() {
+    clear_object($this);
+  }
 
   /**
    * Returns the DomDocument object representing the curent html document
@@ -195,16 +199,6 @@ class Frame_Tree {
         $child->parentNode->removeChild($child);
         continue;
       }
-      
-      // Get value from inputs
-      /*if ( $child->nodeName === "input" ) {
-        $type = $child->getAttribute("type");
-        $value = $child->getAttribute("value");
-        $value = ( $type === "checkbox" || $type === "radio" || $value === null || $value === "" ) ? " " : $value;
-          
-        $input_value = $child->ownerDocument->createTextNode($value);
-        $child->appendChild($input_value);
-      }*/
       
       $frame->append_child($this->_build_tree_r($child), false);
     }

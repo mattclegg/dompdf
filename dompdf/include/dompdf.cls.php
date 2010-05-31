@@ -186,6 +186,13 @@ class DOMPDF {
     $this->_callbacks = array();
     $this->_cache_id = null;
   }
+  
+  /**
+   * Class destructor
+   */
+  function __destruct() {
+    clear_object($this);
+  }
 
   /**
    * Returns the underlying {@link Frame_Tree} object

@@ -152,7 +152,14 @@ class Frame {
    * @var Frame_Decorator
    */
   protected $_decorator;
-    
+  
+  /**
+   * Class destructor
+   */
+  function __destruct() {
+    clear_object($this);
+  }
+
   /**
    * Class constructor
    *
@@ -227,11 +234,7 @@ class Frame {
     if ( $this->_parent ) {
       $this->_parent->get_node()->removeChild($this->_node);
     }
-
-    $this->_style->dispose();
-    unset($this->_style);
-    $this->_original_style->dispose();
-    unset($this->_original_style);
+    clear_object($this);
     
   }
 
@@ -245,7 +248,7 @@ class Frame {
     $this->_containing_block["w"] = null;
     $this->_containing_block["h"] = null;
 
-    unset($this->_style);
+    clear_object($this->_style);
     $this->_style = clone $this->_original_style;
   }
   

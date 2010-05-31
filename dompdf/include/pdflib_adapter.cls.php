@@ -395,7 +395,7 @@ class PDFLib_Adapter implements Canvas {
           ($where === "all")) )
       $this->_pdf->fit_image($object,0,0,"");
 
-    unset($this->_objs[$object]);
+    $this->_objs[$object] = null;
   }
 
   /**

@@ -68,22 +68,36 @@ class Inline_Positioner extends Positioner {
     $cb = $this->_frame->get_containing_block();
     $style = $this->_frame->get_style();
     $line = $p->get_current_line();
+    
+    $f = $this->_frame;
+    // Skip the page break if in a fixed position element
+    $is_fixed = 0;
+    
+    while($f = $f->get_parent()) {
+      if($f->get_style()->position === "fixed") {
+        $is_fixed = 1;
+        break;
+      }
+    }
 
-    if( $this->_frame->get_parent() instanceof Inline_Frame_Decorator ) {
-
+    $height = $style->length_in_pt($style->height, $cb["h"]);
+    
+    if ( $this->_frame->get_parent() && !$is_fixed &&
+         $this->_frame->get_parent() instanceof Inline_Frame_Decorator /*&&
+         $this->_frame->get_parent()->get_parent()->get_node()->nodeName !== "body" */) {
+      
       $min_max = $this->_frame->get_reflower()->get_min_max_width();
       $height = $style->length_in_pt($style->height, $cb["h"]);
-
-
-      // If the frame doesn't fit on the page, a page break occurs
-      /*if( $height !== "auto" && $height > ($cb["h"] - $line["y"]) ) {
-
-        $this->_frame->get_parent()->split($this->_frame, true);
-        //return;
-      }*/
-
-      //If the frame doesn't fit in the current line, a line break occurs
-      if ( $min_max["min"] > ($cb["w"]-$p->get_current_line("w"))) {
+      
+      // If the frame doesn't fit in the current page, a page break occurs
+      if ( $height !== "auto" && ($height > $cb["h"] - $line["y"] ) &&
+          !$this->_frame->get_dompdf()->get_tree()->get_root()->get_decorator()->is_full()) {
+        $this->_frame->split(null, true);
+        return;
+      }
+      
+      // If the frame doesn't fit in the current line, a line break occurs
+      if ( $min_max["min"] > ($cb["w"]-$line["w"]) ) {
        $p->add_line();
       }
     }
