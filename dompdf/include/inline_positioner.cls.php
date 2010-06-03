@@ -84,20 +84,20 @@ class Inline_Positioner extends Positioner {
     
     if ( $this->_frame->get_parent() && !$is_fixed &&
          $this->_frame->get_parent() instanceof Inline_Frame_Decorator /*&&
-         $this->_frame->get_parent()->get_parent()->get_node()->nodeName !== "body" */) {
+         $this->_frame->get_parent()->get_parent()->get_node()->nodeName !== "body"*/ ) {
       
       $min_max = $this->_frame->get_reflower()->get_min_max_width();
       $height = $style->length_in_pt($style->height, $cb["h"]);
       
       // If the frame doesn't fit in the current page, a page break occurs
-      if ( $height !== "auto" && ($height > $cb["h"] - $line["y"] ) &&
+      if ( $height !== "auto" && ($height > ($cb["h"] - $line["y"] * 0.9) ) &&
           !$this->_frame->get_dompdf()->get_tree()->get_root()->get_decorator()->is_full()) {
         $this->_frame->split(null, true);
         return;
       }
       
       // If the frame doesn't fit in the current line, a line break occurs
-      if ( $min_max["min"] > ($cb["w"]-$line["w"]) ) {
+      if ( $min_max["min"] > ($cb["w"] - $line["w"]) ) {
        $p->add_line();
       }
     }

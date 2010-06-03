@@ -588,13 +588,20 @@ class Block_Frame_Reflower extends Frame_Reflower {
       if ( $page->is_full() )
         break;
       
-      $child->set_containing_block($cb_x, $cb_y, $w, $cb_h);
-      $child->reflow();
-
+      
+      if ($this->_frame->get_style()->display === "block") {
+        $child->set_containing_block($cb_x, $cb_y, $w, $cb_h);
+        $child->reflow();
+      }  
       // Don't add the child to the line if a page break has occurred
       if ( $page->check_page_break($child) )
         break;
 
+      if($this->_frame->get_style()->display === "inline") {
+      	$child->set_containing_block($cb_x, $cb_y, $w, $cb_h);
+        $child->reflow();
+      }
+        
       // If the frame is not absolutely positioned, It's okay to add the frame
       // to the line
       if ( $child->get_style()->position !== "absolute" &&
