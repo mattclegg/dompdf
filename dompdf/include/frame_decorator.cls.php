@@ -110,7 +110,6 @@ abstract class Frame_Decorator extends Frame {
     unset($this->_root);
     $this->_frame->dispose(true);
     $this->_frame = null;
-    unset($this->_frame);
     $this->_positioner = null;
     unset($this->_positioner);
     $this->_reflower = null;
