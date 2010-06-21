@@ -725,7 +725,6 @@ class Stylesheet {
     // won't be needing this later.
     foreach ( array_keys($this->_styles) as $key ) {
       $this->_styles[$key] = null;
-      unset($this->_styles[$key]);
     }
 
   }

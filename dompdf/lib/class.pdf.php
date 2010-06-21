@@ -1990,7 +1990,6 @@ class  Cpdf {
         // if the font file is old, then clear it out and prepare for re-creation
         $this->addMessage('openFont: clear out, make way for new version.');
         $this->fonts[$font] = null;
-        unset($this->fonts[$font]);
       }
     }
 
@@ -2144,7 +2143,6 @@ class  Cpdf {
         file_put_contents($fontcache . $cache_name, '<?php $this->fonts["'.$font.'"]=' . var_export($data,  true) . '; ?>');
       }
       $data = null;
-      unset($data);
     }
     
     if  (!isset($this->fonts[$font])) {
@@ -3717,7 +3715,6 @@ class  Cpdf {
       $this->objects[$this->currentContents]['c'].=  "\n".$this->stateStack[$n]['lin'];
       $this->currentLineStyle =  $this->stateStack[$n]['lin'];
       $this->stateStack[$n] = null;
-      unset($this->stateStack[$n]);
       $this->nStateStack--;
     }
     
@@ -3920,7 +3917,6 @@ class  Cpdf {
     //if already cached, need not to read again
 	if ( isset($this->imagelist[$file]) ) {
 	  $data = null;
-	  unset($data);
 	} else {
   	  // Example for transparency handling on new image. Retain for current image
       // $tIndex = imagecolortransparent($img);
@@ -3971,7 +3967,6 @@ class  Cpdf {
     //if already cached, need not to read again
 	if ( isset($this->imagelist[$file]) ) {
 	  $img = null;
-	  unset($img);
 	} else {
       //png files typically contain an alpha channel.
       //pdf file format or class.pdf does not support alpha blending.
@@ -4015,7 +4010,6 @@ class  Cpdf {
       //debugpng
       //if (DEBUGPNG) print '[addPngFromBuf Duplicate '.$file.']';
 	  $data = null;
-	  unset($data);
       $info['width'] = $this->imagelist[$file]['w'];
       $info['height'] = $this->imagelist[$file]['h'];
       $label = $this->imagelist[$file]['label'];
@@ -4282,7 +4276,6 @@ class  Cpdf {
 
 	if ( isset($this->imagelist[$img]) ) {
 	  $data = null;
-	  unset($data);
       $imageWidth = $this->imagelist[$img]['w'];
       $imageHeight = $this->imagelist[$img]['h'];
       $channels =  $this->imagelist[$img]['c'];
@@ -4513,7 +4506,6 @@ class  Cpdf {
       $data =  get_object_vars($this);
       $this->checkpoint =  $data;
       $data = null;
-      unset($data);
       break;
 
     case  'commit':
@@ -4521,7 +4513,6 @@ class  Cpdf {
         $tmp =  $this->checkpoint['checkpoint'];
         $this->checkpoint =  $tmp;
         $tmp = null;
-        unset($tmp);
       } else {
         $this->checkpoint =  '';
       }
@@ -4539,7 +4530,6 @@ class  Cpdf {
           }
         }
         $tmp = null;
-        unset($tmp);
       }
       break;
 
@@ -4551,7 +4541,6 @@ class  Cpdf {
           $this->$k =  $v;
         }
         $tmp = null;
-        unset($tmp);
       }
       break;
     }

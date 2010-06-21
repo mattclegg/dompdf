@@ -518,7 +518,6 @@ class Style {
         }
         //see __set and __get, on all assignments clear cache!
 		$this->_prop_cache[$prop] = null;
-		unset($this->_prop_cache[$prop]);
 		$this->_props[$prop] = $parent->_props[$prop];
       }
     }
@@ -561,12 +560,10 @@ class Style {
  	    $this->_important_props[$prop] = true;
         //see __set and __get, on all assignments clear cache!
 		$this->_prop_cache[$prop] = null;
-		unset($this->_prop_cache[$prop]);
  	    $this->_props[$prop] = $val;
  	  } else if ( !isset($this->_important_props[$prop]) ) {
         //see __set and __get, on all assignments clear cache!
 		$this->_prop_cache[$prop] = null;
-		unset($this->_prop_cache[$prop]);
  	    $this->_props[$prop] = $val;
  	  }
  	}
@@ -638,7 +635,6 @@ class Style {
   function __set($prop, $val) {
     $prop = str_replace("-", "_", $prop);
     $this->_prop_cache[$prop] = null;
-    unset($this->_prop_cache[$prop]);
     if ( !isset(self::$_defaults[$prop]) ) {
       global $_dompdf_warnings;
       $_dompdf_warnings[] = "'$prop' is not a valid CSS2 property.";
@@ -762,7 +758,6 @@ class Style {
     }
 
     $family = null;
-    unset($family);
     if ($DEBUGCSS)  print '(default)';
     $font = Font_Metrics::get_font($family, $subtype);
 
@@ -841,7 +836,6 @@ class Style {
 
     //see __set and __get, on all assignments clear cache!
 	$this->_prop_cache["font_size"] = null;
-	  unset($this->_prop_cache["font_size"]);
     $this->_props["font_size"] = $fs;
     $this->__font_size_calculated = true;
     return $this->_props["font_size"];
