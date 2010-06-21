@@ -106,7 +106,7 @@ abstract class Frame_Reflower {
     }
 
     // Collapse our first child's margin
-    $f = $this->_frame->get_next_sibling();
+    $f = $this->_frame->get_first_child();
     while ( $f && !in_array($f->get_style()->display, Style::$BLOCK_TYPES) )
       $f = $f->get_next_sibling();
 
