@@ -234,7 +234,14 @@ class Frame {
     if ( $this->_parent ) {
       $this->_parent->get_node()->removeChild($this->_node);
     }
-    clear_object($this);
+
+    $this->_style->dispose();
+    $this->_style = null;
+    unset($this->_style);
+    
+    $this->_original_style->dispose();
+    $this->_original_style = null;
+    unset($this->_original_style);
     
   }
 
@@ -248,7 +255,8 @@ class Frame {
     $this->_containing_block["w"] = null;
     $this->_containing_block["h"] = null;
 
-    clear_object($this->_style);
+    $this->_style = null;
+    unset($this->_style);
     $this->_style = clone $this->_original_style;
   }
   
@@ -532,12 +540,13 @@ class Frame {
     
     $child->_parent = $this;
     $child->_prev_sibling = null;
-    
+    unset($child->_prev_sibling);
     // Handle the first child
     if ( !$this->_first_child ) {
       $this->_first_child = $child;
       $this->_last_child = $child;
       $child->_next_sibling = null;
+      unset($child->_next_sibling);
     } else {
       $this->_first_child->_prev_sibling = $child;
       $child->_next_sibling = $this->_first_child;      
@@ -686,8 +695,11 @@ class Frame {
       $child->_next_sibling->_prev_sibling = $child->_prev_sibling;    
 
     $child->_next_sibling = null;
+    unset($child->_next_sibling);
     $child->_prev_sibling = null;
+    unset($child->_prev_sibling);
     $child->_parent = null;
+    unset($child->_parent);
     return $child;
   }
 

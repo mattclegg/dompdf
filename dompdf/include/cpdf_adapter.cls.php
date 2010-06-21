@@ -636,6 +636,7 @@ class CPDF_Adapter implements Canvas {
 	      //If same image has occured already before, no need to load because
 	      //duplicate will anyway be eliminated.
 	      $img = null;
+	      unset($img);
 	    } else {
     	  $img = @imagecreatefromgif($img_url);
     	  if (!$img) {

@@ -547,7 +547,7 @@ class Block_Frame_Reflower extends Frame_Reflower {
     list($w, $left_margin, $right_margin, $left, $right) = $this->_calculate_restricted_width();
 
     // Store the calculated properties
-    $style->width = $w;
+    $style->width = $w . "pt";
     $style->margin_left = $left_margin."pt";
     $style->margin_right = $right_margin."pt";
     $style->left = $left ."pt";

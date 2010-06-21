@@ -102,8 +102,10 @@ class Block_Frame_Decorator extends Frame_Decorator {
   }
 
   function clear_line($i) {
-    if ( isset($this->_lines[$i]) )
+    if ( isset($this->_lines[$i]) ) {
       $this->_lines[$i] = null;
+      unset($this->_lines[$i]);
+    }
   }
 
   function set_line($lineno, $y = null, $w = null, $h = null) {
@@ -209,6 +211,7 @@ class Block_Frame_Decorator extends Frame_Decorator {
     while ($j < count($this->_lines[$i]["frames"])) {
       $f = $this->_lines[$i]["frames"][$j];
       $this->_lines[$i]["frames"][$j++] = null;
+      unset($this->_lines[$i]["frames"][$j++]);
       $this->_lines[$i]["w"] -= $f->get_margin_width();
     }
 
@@ -220,9 +223,10 @@ class Block_Frame_Decorator extends Frame_Decorator {
     $this->_lines[$i]["h"] = $h;
 
     // Remove all lines that follow
-    while ($this->_cl > $i)
+    while ($this->_cl > $i) {
       $this->_lines[ $this->_cl-- ] = null;
-
+      unset($this->_lines[ $this->_cl-- ]);
+    }
   }
 
   function increase_line_width($w) {

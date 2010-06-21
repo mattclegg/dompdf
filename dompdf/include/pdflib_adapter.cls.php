@@ -396,6 +396,7 @@ class PDFLib_Adapter implements Canvas {
       $this->_pdf->fit_image($object,0,0,"");
 
     $this->_objs[$object] = null;
+    unset($this->_objs[$object]);
   }
 
   /**
@@ -936,6 +937,7 @@ class PDFLib_Adapter implements Canvas {
 
       unlink($this->_file);
       $this->_file = null;
+      unset($this->_file);
     }
 
     flush();
@@ -969,6 +971,7 @@ class PDFLib_Adapter implements Canvas {
 
       unlink($this->_file);
       $this->_file = null;
+      unset($this->_file);
     }
 
     return $data;

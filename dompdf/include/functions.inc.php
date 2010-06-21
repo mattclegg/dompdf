@@ -575,4 +575,5 @@ function clear_object(&$object) {
     }
   }
   $object = null;
+  unset($object);
 }

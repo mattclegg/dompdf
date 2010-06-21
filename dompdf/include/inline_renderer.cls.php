@@ -69,10 +69,8 @@ class Inline_Renderer extends Abstract_Renderer {
     $h = 0;
 //     $x += $widths[3];
 //     $y += $widths[0];
-  
-    if ( $style->opacity != 1.0 ) {
-      $this->_set_opacity( $frame->get_opacity( $style->opacity ) );
-    }
+    
+    $this->_set_opacity( $frame->get_opacity( $style->opacity ) );
     
     $first_row = true;
 

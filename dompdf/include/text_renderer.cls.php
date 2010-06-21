@@ -91,7 +91,12 @@ class Text_Renderer extends Abstract_Renderer {
     $size = $style->font_size;
     $height = $style->height;    
     $spacing = $frame->get_text_spacing() + $style->word_spacing;
+    
+    $opa = $frame->get_opacity( $style->opacity );
+    $opa === 1.0 ? $opa = 0.9: $opa = $opa;
+    $this->_set_opacity($opa);
 
+    
 //     if ( preg_replace("/[\s]+/", "", $text) == "" )
 //       return;
 

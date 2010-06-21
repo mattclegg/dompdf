@@ -340,6 +340,13 @@ class  Cpdf {
 
 
   /**
+   * Class destructor
+   */
+  function __destruct() {
+    clear_object($this);
+  }
+  
+  /**
    * Document object methods (internal use only)
    *
    * There is about one object method for each type of object in the pdf document
@@ -1970,7 +1977,8 @@ class  Cpdf {
     // .ufm or .afm.
     if ($this->isUnicode && !file_exists("$dir/$metrics_name")) { $metrics_name = $name . '.afm'; }
     
-    $cache_name = "php_$metrics_name";
+    //$cache_name = "php_$metrics_name";
+    $cache_name = "$metrics_name.php";
     $this->addMessage("metrics: $metrics_name, cache: $cache_name");
     if  (file_exists($fontcache . $cache_name)) {
       $this->addMessage("openFont: php file exists $fontcache$cache_name");
@@ -1980,6 +1988,7 @@ class  Cpdf {
       if  (!isset($this->fonts[$font]['_version_']) ||  $this->fonts[$font]['_version_'] != $this->fontcacheVersion) {
         // if the font file is old, then clear it out and prepare for re-creation
         $this->addMessage('openFont: clear out, make way for new version.');
+        $this->fonts[$font] = null;
         unset($this->fonts[$font]);
       }
     }
@@ -2131,8 +2140,10 @@ class  Cpdf {
       //Because of potential trouble with php safe mode, expect that the folder already exists.
       //If not existing, this will hit performance because of missing cached results.
       if ( is_dir(substr($fontcache,0,-1)) && is_writable(substr($fontcache,0,-1)) ) {
-        file_put_contents($fontcache . $cache_name, '$this->fonts[$font]=' . var_export($data,  true) . ';');
+        file_put_contents($fontcache . $cache_name, '<?php $this->fonts["'.$font.'"]=' . var_export($data,  true) . '; ?>');
       }
+      $data = null;
+      unset($data);
     }
     
     if  (!isset($this->fonts[$font])) {
@@ -2541,6 +2552,8 @@ class  Cpdf {
     $options = array("BM" => "/$mode",
                      "CA" => (float)$opacity);
 
+    $this->currentLineTransparency["mode"] = $mode;
+    $this->currentLineTransparency["opacity"] = (float)$opacity;
     $this->setGraphicsState($options);
   }
   
@@ -3702,6 +3715,7 @@ class  Cpdf {
       $this->currentStrokeColour =  $this->stateStack[$n]['str'];
       $this->objects[$this->currentContents]['c'].=  "\n".$this->stateStack[$n]['lin'];
       $this->currentLineStyle =  $this->stateStack[$n]['lin'];
+      $this->stateStack[$n] = null;
       unset($this->stateStack[$n]);
       $this->nStateStack--;
     }
@@ -3905,6 +3919,7 @@ class  Cpdf {
     //if already cached, need not to read again
 	if ( isset($this->imagelist[$file]) ) {
 	  $data = null;
+	  unset($data);
 	} else {
   	  // Example for transparency handling on new image. Retain for current image
       // $tIndex = imagecolortransparent($img);
@@ -3955,6 +3970,7 @@ class  Cpdf {
     //if already cached, need not to read again
 	if ( isset($this->imagelist[$file]) ) {
 	  $img = null;
+	  unset($img);
 	} else {
       //png files typically contain an alpha channel.
       //pdf file format or class.pdf does not support alpha blending.
@@ -3998,6 +4014,7 @@ class  Cpdf {
       //debugpng
       //if (DEBUGPNG) print '[addPngFromBuf Duplicate '.$file.']';
 	  $data = null;
+	  unset($data);
       $info['width'] = $this->imagelist[$file]['w'];
       $info['height'] = $this->imagelist[$file]['h'];
       $label = $this->imagelist[$file]['label'];
@@ -4264,6 +4281,7 @@ class  Cpdf {
 
 	if ( isset($this->imagelist[$img]) ) {
 	  $data = null;
+	  unset($data);
       $imageWidth = $this->imagelist[$img]['w'];
       $imageHeight = $this->imagelist[$img]['h'];
       $channels =  $this->imagelist[$img]['c'];
@@ -4493,6 +4511,7 @@ class  Cpdf {
       // store all the data away into the checkpoint variable
       $data =  get_object_vars($this);
       $this->checkpoint =  $data;
+      $data = null;
       unset($data);
       break;
 
@@ -4500,6 +4519,7 @@ class  Cpdf {
       if  (is_array($this->checkpoint) &&  isset($this->checkpoint['checkpoint'])) {
         $tmp =  $this->checkpoint['checkpoint'];
         $this->checkpoint =  $tmp;
+        $tmp = null;
         unset($tmp);
       } else {
         $this->checkpoint =  '';
@@ -4517,6 +4537,7 @@ class  Cpdf {
             $this->$k =  $v;
           }
         }
+        $tmp = null;
         unset($tmp);
       }
       break;
@@ -4528,6 +4549,7 @@ class  Cpdf {
         foreach ($tmp as  $k => $v) {
           $this->$k =  $v;
         }
+        $tmp = null;
         unset($tmp);
       }
       break;

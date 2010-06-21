@@ -107,11 +107,14 @@ abstract class Frame_Decorator extends Frame {
     }
     
     $this->_root = null;
+    unset($this->_root);
     $this->_frame->dispose(true);
     $this->_frame = null;
+    unset($this->_frame);
     $this->_positioner = null;
+    unset($this->_positioner);
     $this->_reflower = null;
-
+    unset($this->_reflower);
   }
 
   // Return a copy of this frame with $node as its node

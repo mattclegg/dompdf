@@ -140,7 +140,7 @@ class Stylesheet {
    * (Previous version $ACCEPTED_MEDIA_TYPES = $ACCEPTED_GENERIC_MEDIA_TYPES + $ACCEPTED_DEFAULT_MEDIA_TYPE)
    */
   static $ACCEPTED_DEFAULT_MEDIA_TYPE = "print";
-  static $ACCEPTED_GENERIC_MEDIA_TYPES = array("all", "static", "visual", "bitmap", "paged");
+  static $ACCEPTED_GENERIC_MEDIA_TYPES = array("all", "static", "visual", "bitmap", "paged", "dompdf");
 
   /**
    * The class constructor.
@@ -721,11 +721,11 @@ class Stylesheet {
       $frame->set_style($style);
 
     }
-
     // We're done!  Clean out the registry of all styles since we
     // won't be needing this later.
     foreach ( array_keys($this->_styles) as $key ) {
       $this->_styles[$key] = null;
+      unset($this->_styles[$key]);
     }
 
   }
