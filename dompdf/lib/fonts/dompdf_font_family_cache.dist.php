@@ -1,5 +1,4 @@
-<?php
-  return array (
+array (
   'sans-serif' => array (
     'normal' => DOMPDF_FONT_DIR . 'Helvetica',
     'bold' => DOMPDF_FONT_DIR . 'Helvetica-Bold',
@@ -89,4 +88,4 @@
  * monospace, fixed, courier, courier new, lucida console, lucida sans typewriter, freeMono, 
  * fixed, terminal, dejavu sans mono, liberation mono, luxi mono
  */
-?>
+
