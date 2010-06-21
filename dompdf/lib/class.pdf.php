@@ -1982,8 +1982,9 @@ class  Cpdf {
     $this->addMessage("metrics: $metrics_name, cache: $cache_name");
     if  (file_exists($fontcache . $cache_name)) {
       $this->addMessage("openFont: php file exists $fontcache$cache_name");
-      $tmp =  file_get_contents($fontcache . $cache_name);
-      eval($tmp);
+      require($fontcache . $cache_name);
+      //$tmp =  file_get_contents($fontcache . $cache_name);
+      //eval($tmp);
 
       if  (!isset($this->fonts[$font]['_version_']) ||  $this->fonts[$font]['_version_'] != $this->fontcacheVersion) {
         // if the font file is old, then clear it out and prepare for re-creation
