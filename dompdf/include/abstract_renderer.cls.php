@@ -311,6 +311,10 @@ abstract class Abstract_Renderer {
     case "gif":
       $src = imagecreatefromgif($img);
       break;
+      
+    case "bmp":
+      $src = imagecreatefrombmp($img);
+      break;
 
     default:
       return; // Unsupported image type

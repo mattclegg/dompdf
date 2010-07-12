@@ -69,7 +69,10 @@ class Text_Renderer extends Abstract_Renderer {
   //........................................................................
 
   function render(Frame $frame) {
-    
+    $text = $frame->get_text();
+    if ( trim($text) == "" )
+      return;
+      
     $style = $frame->get_style();
     list($x, $y) = $frame->get_position();
     $cb = $frame->get_containing_block();
@@ -85,20 +88,10 @@ class Text_Renderer extends Abstract_Renderer {
 
     $x += $style->length_in_pt( array($ml, $pl, $bl), $cb["w"] );
 
-    $text = $frame->get_text();
-    
     $font = $style->font_family;
     $size = $style->font_size;
     $height = $style->height;    
     $spacing = $frame->get_text_spacing() + $style->word_spacing;
-    
-    $opa = $frame->get_opacity( $style->opacity );
-    $opa === 1.0 ? $opa = 0.9: $opa = $opa;
-    $this->_set_opacity($opa);
-
-    
-//     if ( preg_replace("/[\s]+/", "", $text) == "" )
-//       return;
 
     /*$text = str_replace(
       array("{PAGE_NUM}"),

@@ -588,19 +588,19 @@ class Block_Frame_Reflower extends Frame_Reflower {
       if ( $page->is_full() )
         break;
 
-      $hasreflowed = 0;
+      $reflowed = false;
 
       if ( $this->_frame->get_parent()->get_style()->display === "block" ) {
         $child->set_containing_block($cb_x, $cb_y, $w, $cb_h);
         $child->reflow();
-        $hasreflowed = 1;
+        $reflowed = true;
       }
       
       // Don't add the child to the line if a page break has occurred
       if ( $page->check_page_break($child) )
         break;
 
-      if ( !$hasreflowed ) {
+      if ( !$reflowed ) {
         $child->set_containing_block($cb_x, $cb_y, $w, $cb_h);
         $child->reflow();
       }

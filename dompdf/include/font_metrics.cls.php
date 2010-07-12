@@ -221,10 +221,6 @@ class Font_Metrics {
     if ( !is_readable(self::CACHE_FILE) )
       return;
 
-    /*$data = file_get_contents(self::CACHE_FILE);
-
-    if ( $data != "" )
-      eval ('self::$_font_lookup = ' . $data . ";");*/
     self::$_font_lookup = require_once(self::CACHE_FILE);
   }
 

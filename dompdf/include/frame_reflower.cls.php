@@ -110,6 +110,7 @@ abstract class Frame_Reflower {
     while ( $f && !in_array($f->get_style()->display, Style::$BLOCK_TYPES) )
       $f = $f->get_next_sibling();
 
+    // Margin are collapsed only between block elements
     if ( $f && in_array($f->get_style()->display, Style::$BLOCK_TYPES)) {
       $t = max( $t, $style->length_in_pt($f->get_style()->margin_top, $cb["h"]));
       $style->margin_top = $t."pt";

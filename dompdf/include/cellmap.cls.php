@@ -578,15 +578,21 @@ class Cellmap {
     foreach ( $rows as $r ) {
       foreach ( $columns as $c ) {
         if ( isset($this->_cells[$r][$c]) ) {
-          $frame = $this->_cells[$r][$c];
-          $this->_frames[ $frame->get_id() ] = null;
+          $id = $this->_cells[$r][$c]->get_id();
+          
+          $this->_frames[$id] = null;
+          unset($this->_frames[$id]);
+          
           $this->_cells[$r][$c] = null;
+          unset($this->_cells[$r][$c]);
         }
       }
       $this->_rows[$r] = null;
+      unset($this->_rows[$r]);
     }
 
     $this->_frames[$key] = null;
+    unset($this->_frames[$key]);
 
   }
 
@@ -608,6 +614,7 @@ class Cellmap {
     }
 
     $this->_frames[$key] = null;
+    unset($this->_frames[$key]);
   }
 
   /**

@@ -211,7 +211,7 @@ class Frame {
 
     if ( $recursive ) {
       while ( $child = $this->_first_child )
-        $child->dispose(false);
+        $child->dispose(true);
     }
 
     // Remove this frame from the tree
@@ -237,9 +237,11 @@ class Frame {
 
     $this->_style->dispose();
     $this->_style = null;
+    unset($this->_style);
     
     $this->_original_style->dispose();
     $this->_original_style = null;
+    unset($this->_original_style);
     
   }
 
@@ -326,9 +328,8 @@ class Frame {
    * @return array|float
    */
   function get_containing_block($i = null) {
-    if ( isset($i) ) {
-      return $this->_containing_block[$i];
-    }
+    if ( isset($i) )
+      return $this->_containing_block[$i];    
     return $this->_containing_block;
   }
   
@@ -538,6 +539,7 @@ class Frame {
     
     $child->_parent = $this;
     $child->_prev_sibling = null;
+    
     // Handle the first child
     if ( !$this->_first_child ) {
       $this->_first_child = $child;

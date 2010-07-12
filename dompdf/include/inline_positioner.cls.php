@@ -70,30 +70,32 @@ class Inline_Positioner extends Positioner {
     $line = $p->get_current_line();
     
     $f = $this->_frame;
+
     // Skip the page break if in a fixed position element
-    $is_fixed = 0;
-    
+    $is_fixed = false;
     while($f = $f->get_parent()) {
       if($f->get_style()->position === "fixed") {
-        $is_fixed = 1;
+        $is_fixed = true;
         break;
       }
     }
 
     $height = $style->length_in_pt($style->height, $cb["h"]);
 
-    if ( $this->_frame->get_parent() && !$is_fixed &&
-         $this->_frame->get_parent() instanceof Inline_Frame_Decorator &&
-         $this->_frame->get_node()->nodeName === "#text" ) {
+    $f = $this->_frame;
+
+    if ( !$is_fixed && $f->get_parent() &&
+         $f->get_parent() instanceof Inline_Frame_Decorator &&
+         $f->get_node()->nodeName === "#text" ) {
       
-      $min_max = $this->_frame->get_reflower()->get_min_max_width();
-      $initialcb = $this->_frame->get_root()->get_containing_block();
+      $min_max = $f->get_reflower()->get_min_max_width();
+      $initialcb = $f->get_root()->get_containing_block();
       $height = $style->length_in_pt($style->height, $initialcb["h"]);
       
       // If the frame doesn't fit in the current page, a page break occurs
       if ( $height !== "auto" && ($height > ($initialcb["h"]-$line["y"]*1.1) ) &&
-          !$this->_frame->get_dompdf()->get_tree()->get_root()->get_decorator()->is_full()) {
-        $this->_frame->split(null, true);
+          !$f->get_dompdf()->get_tree()->get_root()->get_decorator()->is_full()) {
+        $f->split(null, true);
         return;
       }
       
