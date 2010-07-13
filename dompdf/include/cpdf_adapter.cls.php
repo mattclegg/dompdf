@@ -502,23 +502,24 @@ class CPDF_Adapter implements Canvas {
   //........................................................................
 
   /**
-   * Convert a GIF image to a PNG image
+   * Convert a GIF or BMP image to a PNG image
    *
    * @return string The url of the newly converted image
    */
-  protected function _convert_gif_to_png($image_url) {
+  protected function _convert_gif_bmp_to_png($image_url, $image_type) {
+    $func_name = "imagecreatefrom$image_type";
     
-    if ( !function_exists("imagecreatefromgif") ) {
-      throw new DOMPDF_Exception("Function imagecreatefromgif() not found.  Cannot convert gif image: $image_url.  Please install the image PHP extension.");
+    if ( !function_exists($func_name) ) {
+      throw new DOMPDF_Exception("Function $func_name() not found.  Cannot convert $image_type image: $image_url.  Please install the image PHP extension.");
     }
 
     $old_err = set_error_handler("record_warnings");
-    $im = imagecreatefromgif($image_url);
+    $im = $func_name($image_url);
 
     if ( $im ) {
       imageinterlace($im, 0);
 
-      $filename = tempnam(DOMPDF_TEMP_DIR, "gifdompdf_img_").'.png';
+      $filename = tempnam(DOMPDF_TEMP_DIR, "{$image_type}dompdf_img_").'.png';
       $this->_image_cache[] = $filename;
 
       imagepng($im, $filename);
@@ -531,7 +532,6 @@ class CPDF_Adapter implements Canvas {
     restore_error_handler();
 
     return $filename;
-    
   }
 
   function rectangle($x1, $y1, $w, $h, $color, $width, $style = array()) {
