@@ -370,8 +370,10 @@ class DOMPDF {
     // if the document contains non utf-8 with a utf-8 meta tag chars and was 
     // detected as utf-8 by mbstring, problems could happen.
     // http://devzone.zend.com/article/8855
-    $str = preg_replace("/<meta([^>]+)>/", "", $str);
-
+    if ( $encoding === 'UTF-8' ) {
+      $str = preg_replace("/<meta([^>]+)>/", "", $str);
+    }
+    
     // Store parsing warnings as messages
     set_error_handler("record_warnings");
     $this->_xml->loadHTML($str);
