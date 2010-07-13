@@ -11,20 +11,15 @@ if ( isset( $_POST["html"] ) ) {
   $dompdf->set_paper($_POST["paper"], $_POST["orientation"]);
   $dompdf->render();
 
-  $dompdf->stream("dompdf_out.pdf");
+  $dompdf->stream("dompdf_out.pdf", array("Attachment" => false));
 
   exit(0);
 }
 
 ?>
 <?php include("head.inc"); ?>
-<div id="toc">
-<h2>On this page:</h2>
-<ul>
-<?php echo li_arrow() ?><a href="#samples">Samples</a></li>
-<?php echo li_arrow() ?><a href="#demo">Demo</a></li>
-</ul>
-</div>
+
+<iframe id="preview" name="preview" src="about:blank" border="0" frameborder="0" marginheight="0" marginwidth="0"></iframe>
 
 <a name="samples"> </a>
 <h2>Samples</h2>
@@ -51,12 +46,16 @@ foreach ( $test_files as $file ) {
   $file = basename($file);
   $arrow = "images/arrow_0" . rand(1, 6) . ".gif";  
   echo "<li style=\"list-style-image: url('$arrow');\">\n";
+  echo " 
+[<a class=\"button\" target=\"preview\" href=\"test/$file\">HTML</a>] 
+[<a class=\"button\" target=\"preview\" href=\"$dompdf&options[Attachment]=0&input_file=" . rawurlencode("$file") . "\">PDF</a>] ";
   echo $file;
-  echo " [<a class=\"button\" target=\"blank\" href=\"test/$file\">HTML</a>] [<a class=\"button\" href=\"$dompdf&input_file=" . rawurlencode("$file") .  "\">PDF</a>]\n";
   echo "</li>\n";
 }
 ?>
 </ul>
+
+<div class="bar" style="height: 10px;"></div>
 
 <a name="demo"> </a>
 <h2>Demo</h2>
@@ -64,7 +63,6 @@ foreach ( $test_files as $file ) {
 PDF: (Note by default, remote stylesheets, images &amp; are disabled.)</p>
 
 <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
-<div>
 <p>Paper size and orientaion:
 <select name="paper">
 <?php
@@ -98,7 +96,6 @@ foreach ( array_keys(CPDF_Adapter::$PAPER_SIZES) as $size )
 
 <div style="text-align: center; margin-top: 1em;">
 <input type="submit" name="submit" value="submit"/>
-</div>
 </div>
 </form>
 <p style="font-size: 0.65em; text-align: center;">(Note: if you use a KHTML
