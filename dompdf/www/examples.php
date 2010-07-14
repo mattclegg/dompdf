@@ -31,26 +31,54 @@ package.)</p>
 <ul class="samples">
 <?php
 $test_files = glob("test/*.{html,php}", GLOB_BRACE);
+$sections = array(
+  "css"      => array(), 
+  "dom"      => array(), 
+  "image"    => array(), 
+  "page"     => array(),
+  "encoding" => array(), 
+  "script"   => array(), 
+  "quirks"   => array(), 
+  "other"    => array(), 
+);
+
 //if dompdf.php runs in virtual server root, dirname does not return empty folder but '/' or '\' (windows).
 //This leads to a duplicate separator in unix etc. and an error in Windows. Therefore strip off.
-//echo '<li>['.$_SERVER["PHP_SELF"].']</li>';
+
 $dompdf = dirname(dirname($_SERVER["PHP_SELF"]));
-//echo '<li>['.$dompdf.']</li>';
 if ( $dompdf == '/' || $dompdf == '\\') {
   $dompdf = '';
 }
-//echo '<li>['.$dompdf.']</li>';
+
 $dompdf .= "/dompdf.php?base_path=" . rawurlencode("www/test/");
-//echo '<li>['.$dompdf.']</li>';
+
 foreach ( $test_files as $file ) {
-  $file = basename($file);
-  $arrow = "images/arrow_0" . rand(1, 6) . ".gif";  
-  echo "<li style=\"list-style-image: url('$arrow');\">\n";
-  echo " 
-[<a class=\"button\" target=\"preview\" href=\"test/$file\">HTML</a>] 
-[<a class=\"button\" target=\"preview\" href=\"$dompdf&options[Attachment]=0&input_file=" . rawurlencode("$file") . "\">PDF</a>] ";
-  echo $file;
-  echo "</li>\n";
+  preg_match("@[\\/](([^_]+)_?(.*))\.html|php$@i", $file, $matches);
+//  $prefix = $matches[2];
+//
+//  if ( array_key_exists($prefix, $sections) ) {
+//    $sections[$prefix][] = array($file, $matches[3]);
+//  }
+//  else {
+    $sections["other"][] = array($file, $matches[1]);
+//    $sections["other"][] = array($file, $matches[1]);
+//  }
+}
+
+foreach ( $sections as $section => $files ) {
+  //echo "<h3>$section</h3>";
+  
+  foreach ( $files as $file ) {
+    $filename = basename($file[0]);
+    $title = $file[1];
+    $arrow = "images/arrow_0" . rand(1, 6) . ".gif";  
+    echo "<li style=\"list-style-image: url('$arrow');\">\n";
+    echo " 
+  [<a class=\"button\" target=\"preview\" href=\"test/$filename\">HTML</a>] 
+  [<a class=\"button\" target=\"preview\" href=\"$dompdf&options[Attachment]=0&input_file=" . rawurlencode($filename) . "#toolbar=0&view=FitH&statusbar=0&messages=0&navpanes=0\">PDF</a>] ";
+    echo $filename;
+    echo "</li>\n";
+  }
 }
 ?>
 </ul>

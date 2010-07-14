@@ -96,7 +96,7 @@ class Image_Frame_Reflower extends Frame_Reflower {
         }
       }
       $width = ((float)rtrim($width,"%") * $t)/100; //maybe 0
-    } else {
+    } elseif ( !mb_strpos($width, 'pt') ) {
       // Don't set image original size if "%" branch was 0 or size not given.
       // Otherwise aspect changed on %/auto combination for width/height
       // Resample according to px per inch
@@ -114,7 +114,7 @@ class Image_Frame_Reflower extends Frame_Reflower {
         }
       }
       $height = ((float)rtrim($height,"%") * $t)/100; //maybe 0
-    } else {
+    } elseif ( !mb_strpos($height, 'pt') ) {
       // Don't set image original size if "%" branch was 0 or size not given.
       // Otherwise aspect changed on %/auto combination for width/height
       // Resample according to px per inch
