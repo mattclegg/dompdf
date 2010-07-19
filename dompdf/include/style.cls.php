@@ -635,6 +635,7 @@ class Style {
   function __set($prop, $val) {
     $prop = str_replace("-", "_", $prop);
     $this->_prop_cache[$prop] = null;
+    
     if ( !isset(self::$_defaults[$prop]) ) {
       global $_dompdf_warnings;
       $_dompdf_warnings[] = "'$prop' is not a valid CSS2 property.";

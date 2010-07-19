@@ -53,7 +53,7 @@ if ( $dompdf == '/' || $dompdf == '\\') {
 $dompdf .= "/dompdf.php?base_path=" . rawurlencode("www/test/");
 
 foreach ( $test_files as $file ) {
-  preg_match("@[\\/](([^_]+)_?(.*))\.html|php$@i", $file, $matches);
+  preg_match("@[\\/](([^_]+)_?(.*))\.(html|php)$@i", $file, $matches);
 //  $prefix = $matches[2];
 //
 //  if ( array_key_exists($prefix, $sections) ) {

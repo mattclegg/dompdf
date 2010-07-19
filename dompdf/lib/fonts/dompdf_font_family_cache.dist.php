@@ -89,4 +89,3 @@ return array (
  * monospace, fixed, courier, courier new, lucida console, lucida sans typewriter, freeMono, 
  * fixed, terminal, dejavu sans mono, liberation mono, luxi mono
  */
-?>
